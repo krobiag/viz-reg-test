@@ -52,7 +52,7 @@ jobs:
     #   - build
     steps:
       - name: Test create branch
-        run: ${{ github.workspace }}/dev-tools/github/createBranch.js
+        run: ${{ github.workspace }}/createBranch.js
       # - name: Checkout code
       #   uses: actions/checkout@v2
       # - name: Create Branch
