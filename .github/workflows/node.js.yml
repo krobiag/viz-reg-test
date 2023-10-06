@@ -10,46 +10,46 @@ on:
     branches: ["develop"]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  # build:
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
+  #       # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn -v
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - name: Build Storybook
-        run: yarn build-storybook --quiet
-      - name: Serve Storybook and run tests
-        run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static --port 6006 --silent" \
-            "npx wait-on tcp:6006"
-        # run: |
-        #   npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-        #     "npx http-server storybook-static --port 6006 --silent" \
-        #     "npx wait-on tcp:6006 && yarn test-storybook"
-      # - name: Start Storybook in dev
-      #   run: yarn storybook
-      - run: echo "Start visula regression tests"
-      # - run: npm ci
-      # - run: npm run build --if-present
-      # - run: npm test
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - run: yarn -v
+  #     - name: Install dependencies
+  #       run: yarn --frozen-lockfile
+  #     - name: Build Storybook
+  #       run: yarn build-storybook --quiet
+  #     - name: Serve Storybook and run tests
+  #       run: |
+  #         npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+  #           "npx http-server storybook-static --port 6006 --silent" \
+  #           "npx wait-on tcp:6006"
+  #       # run: |
+  #       #   npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+  #       #     "npx http-server storybook-static --port 6006 --silent" \
+  #       #     "npx wait-on tcp:6006 && yarn test-storybook"
+  #     # - name: Start Storybook in dev
+  #     #   run: yarn storybook
+  #     - run: echo "Start visula regression tests"
+  #     # - run: npm ci
+  #     # - run: npm run build --if-present
+  #     # - run: npm test
 
   Create-Branch:
     name: Create Branch
     runs-on: ubuntu-latest
-    needs:
-      - build
+    # needs:
+    #   - build
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
