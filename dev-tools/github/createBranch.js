@@ -38,7 +38,7 @@ import { execFileSync } from "child_process"
 
 const runCreateBranch = async () => {
     try {
-        execFileSync('./node_modules/.bin/loki')    
+        execFileSync('./node_modules/.bin/loki --requireReference --reactUri file:./storybook-static')    
     } catch (error) {
         console.log(">>asdas", error)
     }
