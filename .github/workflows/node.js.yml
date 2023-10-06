@@ -25,12 +25,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn -v
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
       - name: Test create branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node ${{ github.workspace }}/dev-tools/github/createBranch.js
-  #     - name: Install dependencies
-  #       run: yarn --frozen-lockfile
   #     - name: Build Storybook
   #       run: yarn build-storybook --quiet
   #     - name: Serve Storybook and run tests
