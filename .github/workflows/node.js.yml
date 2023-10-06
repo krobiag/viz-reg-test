@@ -24,37 +24,43 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Create New Branch
-        run: |
-          # Define the new branch name (e.g., feature/branch-name)
-          NEW_BRANCH_NAME="feature/your-branch-name"
+      # - name: Create New Branch
+      #   run: |
+      #     # Define the new branch name (e.g., feature/branch-name)
+      #     NEW_BRANCH_NAME="feature/your-branch-name"
 
-          # Create the new branch from the current commit
-          git checkout -b "$NEW_BRANCH_NAME"
+      #     # Create the new branch from the current commit
+      #     git checkout -b "$NEW_BRANCH_NAME"
 
-          # Push the new branch to the remote repository
-          git push origin "$NEW_BRANCH_NAME"
-      # - run: yarn -v
-      # - name: Install dependencies
-      #   run: yarn --frozen-lockfile
+      #     # Push the new branch to the remote repository
+      #     git push origin "$NEW_BRANCH_NAME"
+      - run: yarn -v
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
       # - name: Test create branch
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #   run: node ${{ github.workspace }}/dev-tools/github/createBranch.js
-  #     - name: Build Storybook
-  #       run: yarn build-storybook --quiet
-  #     - name: Serve Storybook and run tests
-  #       run: |
-  #         npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-  #           "npx http-server storybook-static --port 6006 --silent" \
-  #           "npx wait-on tcp:6006"
-  #       # run: |
-  #       #   npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-  #       #     "npx http-server storybook-static --port 6006 --silent" \
-  #       #     "npx wait-on tcp:6006 && yarn test-storybook"
-  #     # - name: Start Storybook in dev
-  #     #   run: yarn storybook
-  #     - run: echo "Start visula regression tests"
+      - name: Build Storybook
+        run: yarn build-storybook --quiet
+      - name: Serve Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006 --silent" \
+            "npx wait-on tcp:6006"
+        # run: |
+        #   npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+        #     "npx http-server storybook-static --port 6006 --silent" \
+        #     "npx wait-on tcp:6006 && yarn test-storybook"
+      #     # - name: Start Storybook in dev
+      #     #   run: yarn storybook
+      - name: Visual Regression
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node ${{ github.workspace }}/dev-tools/github/createBranch.js
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}/.loki/difference
   #     # - run: npm ci
   #     # - run: npm run build --if-present
   #     # - run: npm test
