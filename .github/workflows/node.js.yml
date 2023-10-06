@@ -51,7 +51,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx concurrently --kill-others \"storybook dev -p 6006\" \"node ${{ github.workspace }}/dev-tools/github/createBranch.js\"
+          npx concurrently --kill-others \
+            "storybook dev -p 6006" \
+            "node ${{ github.workspace }}/dev-tools/github/createBranch.js"
+
+        # npx concurrently --kill-others \"storybook dev -p 6006\" \"node ${{ github.workspace }}/dev-tools/github/createBranch.js\"
         # run: |
         #   npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
         #     "npx http-server storybook-static --port 6006 --silent" \
