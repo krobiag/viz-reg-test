@@ -24,13 +24,23 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn -v
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - name: Test create branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node ${{ github.workspace }}/dev-tools/github/createBranch.js
+      - name: Create New Branch
+        run: |
+          # Define the new branch name (e.g., feature/branch-name)
+          NEW_BRANCH_NAME="feature/your-branch-name"
+
+          # Create the new branch from the current commit
+          git checkout -b "$NEW_BRANCH_NAME"
+
+          # Push the new branch to the remote repository
+          # git push origin "$NEW_BRANCH_NAME"
+      # - run: yarn -v
+      # - name: Install dependencies
+      #   run: yarn --frozen-lockfile
+      # - name: Test create branch
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: node ${{ github.workspace }}/dev-tools/github/createBranch.js
   #     - name: Build Storybook
   #       run: yarn build-storybook --quiet
   #     - name: Serve Storybook and run tests
