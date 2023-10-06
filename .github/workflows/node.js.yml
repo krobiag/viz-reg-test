@@ -27,8 +27,15 @@ jobs:
       - run: yarn -v
       - name: Install dependencies
         run: yarn --frozen-lockfile
-      - name: Start Storybook in dev
-        run: yarn storybook
+      - name: Build Storybook
+        run: yarn build-storybook --quiet
+      - name: Serve Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006 --silent" \
+            "npx wait-on tcp:6006 && yarn test-storybook"
+      # - name: Start Storybook in dev
+      #   run: yarn storybook
       - run: echo "Start visula regression tests"
       # - run: npm ci
       # - run: npm run build --if-present
