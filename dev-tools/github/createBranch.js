@@ -34,15 +34,13 @@
 //     }
 // }
 
-import { execSync } from "child_process"
+import { execFileSync } from "child_process"
 
-import path from "path"
 const runCreateBranch = async () => {
     try {
-        // run loki
-        execSync(path.join(__dirname, '../../node_modules/.bin/loki'))
+        execFileSync('./node_modules/.bin/loki')    
     } catch (error) {
-        console.log(">>error", error)
+        console.log(">>asdas", error)
     }
 }
 
