@@ -52,7 +52,7 @@ jobs:
     #   - build
     steps:
       - name: Test create branch
-        run: node ../../dev-tools/github/createBranch.js
+        run: node ./dev-tools/github/createBranch.js
       # - name: Checkout code
       #   uses: actions/checkout@v2
       # - name: Create Branch
