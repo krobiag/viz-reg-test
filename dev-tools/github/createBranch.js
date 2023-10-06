@@ -34,13 +34,16 @@
 //     }
 // }
 
-import { execFileSync } from "child_process"
+import { exec, execFileSync, execSync } from "child_process"
 
 const runCreateBranch = async () => {
     try {
-        execFileSync('./node_modules/.bin/loki --requireReference --reactUri file:./storybook-static')    
+        console.log(">>hello")
+        // exec('./node_modules/.bin/loki --requireReference --reactUri file:./storybook-static')
+        execSync('node ./node_modules/.bin/loki --requireReference --reactUri file:./storybook-static')   
+        console.log(">>finished") 
     } catch (error) {
-        console.log(">>asdas", error)
+        console.log(">>asdas", error.message)
     }
 }
 
