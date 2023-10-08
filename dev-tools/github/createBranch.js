@@ -35,16 +35,17 @@
 // }
 
 import { exec, execFileSync, execSync } from "child_process"
+import '../snapshot-all'
 
 const runCreateBranch = async () => {
-    try {
-        console.log(">>hello")
-        // exec('./node_modules/.bin/loki --requireReference --reactUri file:./storybook-static')
-        execSync('node ./node_modules/.bin/loki --requireReference --reactUri file:./storybook-static')   
-        console.log(">>finished") 
-    } catch (error) {
-        console.log(">>asdas", error.message)
-    }
+    // try {
+    //     console.log(">>hello")
+    //     // exec('./node_modules/.bin/loki --requireReference --reactUri file:./storybook-static')
+    //     execSync('node ./node_modules/.bin/loki --requireReference --reactUri file:./storybook-static')   
+    //     console.log(">>finished") 
+    // } catch (error) {
+    //     console.log(">>asdas", error.message)
+    // }
 }
 
 runCreateBranch()
