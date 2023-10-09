@@ -15,7 +15,7 @@ export const getExpectedImage = (snapShotPath, parentBranch = 'ahmed-playground'
   try {
     return execSync(`git show ${parentBranch}:./${snapShotPath}.png`);
   } catch (error) {
-    console.log(">>ERROR > getExpectedImage", error)
+    // console.log(">>ERROR > getExpectedImage", error)
     const imageFromBuffer = PNG.sync.read(imageToCompare)
     const {width, height} = imageFromBuffer
     const png = new PNG({ width, height });
