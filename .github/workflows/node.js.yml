@@ -42,27 +42,27 @@ jobs:
       #   run: node ${{ github.workspace }}/dev-tools/github/createBranch.js
       - name: Build Storybook
         run: yarn build-storybook --quiet
-      # - name: Serve Storybook and run tests
-      #   run: |
-      #     npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-      #       "npx http-server storybook-static --port 6006 --silent" \
-      #       "npx wait-on tcp:6006"
       - name: Serve Storybook and run tests
-        run: npx http-server storybook-static --port 6006 --silent
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Start the server
-        run: npx concurrently "yarn server" "node ${{ github.workspace }}/dev-tools/snapshot-all.js"
-        # run: |
-        #   npx concurrently --kill-others \
-        #     "storybook dev -p 6006" \
-        #     "node ${{ github.workspace }}/dev-tools/github/createBranch.js"
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006 --silent" \
+            "npx wait-on tcp:6006"
+      # - name: Serve Storybook and run tests
+      #   run: npx http-server storybook-static --port 6006 --silent
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Start the server
+      #   run: npx concurrently "yarn server" "node ${{ github.workspace }}/dev-tools/snapshot-all.js"
+      # run: |
+      #   npx concurrently --kill-others \
+      #     "storybook dev -p 6006" \
+      #     "node ${{ github.workspace }}/dev-tools/github/createBranch.js"
 
-        # npx concurrently --kill-others \"storybook dev -p 6006\" \"node ${{ github.workspace }}/dev-tools/github/createBranch.js\"
-        # run: |
-        #   npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-        #     "npx http-server storybook-static --port 6006 --silent" \
-        #     "npx wait-on tcp:6006 && yarn test-storybook"
+      # npx concurrently --kill-others \"storybook dev -p 6006\" \"node ${{ github.workspace }}/dev-tools/github/createBranch.js\"
+      # run: |
+      #   npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+      #     "npx http-server storybook-static --port 6006 --silent" \
+      #     "npx wait-on tcp:6006 && yarn test-storybook"
       #     # - name: Start Storybook in dev
       #     #   run: yarn storybook
       # - name: Visual Regression
