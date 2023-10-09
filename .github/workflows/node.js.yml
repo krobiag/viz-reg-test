@@ -51,6 +51,9 @@ jobs:
       # - run: echo "Run script at "
       - name: Start tests ${{ github.workspace }}/dev-tools/snapshot-all.js
         run: node ${{ github.workspace }}/dev-tools/snapshot-all.js &
+      - name: Install rsync 📚
+        run: |
+          apt-get update && apt-get install -y rsync
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
