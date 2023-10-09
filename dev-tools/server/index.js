@@ -1,11 +1,11 @@
-import express from 'express';
+import express, { urlencoded } from 'express';
 import cors from 'cors';
 const app = express();
 app.use(cors());
 const port = 3000;
 import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
-import captureStory from '../snapshot.js';
+import captureStory, {checkIfFileExists, getExpectedImage} from '../snapshot.js';
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 import { launch } from 'puppeteer';
@@ -35,55 +35,39 @@ app.get('/checkStory/*/worker.js', (req, res) => {
   res.sendFile(`${__dirname}/worker.js`);
 });
 
-const checkIfFileExists = (file) => {
-  return fs.existsSync(file)
+const getLocalImageBuffer = async (req)=> {
+  const urlParams = new URLSearchParams(req.headers.referer);
+  const storySnapshot = await captureStory(urlParams.get('storyId'), browser)
+  const localImageBuffer = storySnapshot?.snapshot?.buffer?.local
+  return localImageBuffer
 }
 
-const getExpectedImage = (snapShotPath, parentBranch = 'ahmed-playground') => {
-  try {
-    return execSync(`git show ${parentBranch}:./${snapShotPath}.png`);
-  } catch (error) {
-    console.log(">>ERROR > getExpectedImage", error)
-    return ""
-    
-  }
-}
-  
-
-app.get('/checkStory/*/expected/img.png', (req, res) => {
-  // TODO list branches later in tool
-  console.log('>>11111');
-  const snapShotPath = req.path.substring(12, req.path.length - 17);
-  res.contentType(pngMimetype);
-  res.send(getExpectedImage(snapShotPath, 'main'));
+app.get('/checkStory/*/expected/img.png', async (req, res) => {
+  const snapShotPath = req.params[0];
+  const localImageBuffer = await getLocalImageBuffer(req)
+  const result = getExpectedImage(snapShotPath, 'main', localImageBuffer);
+  res.send(result);
 });
 
-app.get('/checkStory/*/actual/img.png', (req, res) => {
-  console.log('>>22222');
-  const snapShotPath = req.path.substring(12, req.path.length - 15);
-  const imageFile = `${snapShotPath}.png`
-  
-  if (!checkIfFileExists(imageFile)) res.send("No file")
-  res.sendFile(imageFile, { root: '.' });
+app.get('/checkStory/*/actual/img.png', async(req, res) => {
+  const localImageBuffer = await getLocalImageBuffer(req)
+  if (!localImageBuffer) res.send("No file")
+  res.send(localImageBuffer);
 });
 
-app.get('/checkStory/*/diff/img.png', (req, res) => {
-  console.log('>>333');
-  const snapShotPath = req.path.substring(12, req.path.length - 13);
-  const actual = PNG.sync.read(readFileSync(`${snapShotPath}.png`));
-
-  const expected = PNG.sync.read(getExpectedImage(snapShotPath));
-
+app.get('/checkStory/*/diff/img.png', async(req, res) => {
+  const snapShotPath = req.params[0]
+  const localImageBuffer = await getLocalImageBuffer(req)
+  const actual = PNG.sync.read(localImageBuffer);
+  const expected = PNG.sync.read(getExpectedImage(snapShotPath, 'main', localImageBuffer));
   const { width, height } = actual;
   const diff = new PNG({ width, height });
   pixelmatch(actual.data, expected.data, diff.data, width, height, { threshold: 0.1 });
-
   res.contentType(pngMimetype);
   res.send(PNG.sync.write(diff));
 });
 
 app.get('/checkStory/*', (req, res) => {
-  console.log('>>444', `${__dirname}/compare.html`);
   res.sendFile(`${__dirname}/compare.html`);
 });
 

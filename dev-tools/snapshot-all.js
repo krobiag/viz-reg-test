@@ -13,11 +13,11 @@ const run = async () => {
      
         
         const {data} = getAll;
-        // console.log(">>data", data)
+
         const {entries} = data;
         for (const storyId of Object.keys(entries)) {
             const res = await captureStory(storyId, browser, page)
-            console.log(">>res", res)
+            // console.log(">>res", res)
             
         }
     } catch (error) {
