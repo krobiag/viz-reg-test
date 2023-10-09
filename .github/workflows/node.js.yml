@@ -46,11 +46,11 @@ jobs:
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx http-server storybook-static --port 6006 --silent" \
-            "npx wait-on tcp:6006" \ 
-            "yarn server" \
-            "node ${{ github.workspace }}/dev-tools/snapshot-all.js"
+            "npx wait-on tcp:6006"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Start the server
+        run: concurrently "yarn server" "node ${{ github.workspace }}/dev-tools/snapshot-all.js"
         # run: |
         #   npx concurrently --kill-others \
         #     "storybook dev -p 6006" \
