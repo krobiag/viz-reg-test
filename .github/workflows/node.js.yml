@@ -50,7 +50,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Start the server
-        run: concurrently "yarn server" "node ${{ github.workspace }}/dev-tools/snapshot-all.js"
+        run: npx concurrently "yarn server" "node ${{ github.workspace }}/dev-tools/snapshot-all.js"
         # run: |
         #   npx concurrently --kill-others \
         #     "storybook dev -p 6006" \
