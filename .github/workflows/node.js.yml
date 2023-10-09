@@ -47,8 +47,8 @@ jobs:
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx http-server storybook-static --port 6006 --silent" \
             "npx wait-on tcp:6006" \ 
-            "yarn server
-             node ${{ github.workspace }}/dev-tools/snapshot-all.js"
+            "yarn server" \
+            "node ${{ github.workspace }}/dev-tools/snapshot-all.js"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # run: |
