@@ -16,7 +16,12 @@ const run = async () => {
 
         const {entries} = data;
         for (const storyId of Object.keys(entries)) {
-            const res = await captureStory(storyId, browser, page)
+            try {
+                const res = await captureStory(storyId, browser, page)
+            } catch (error) {
+                console.log(">>ERROR", error)
+            }
+            
             // console.log(">>res", res)
             
         }

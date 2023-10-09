@@ -44,11 +44,13 @@ jobs:
       #   run: yarn build-storybook --quiet
       - name: Serve Storybook and run tests
         run: yarn storybook &
+
       - name: Start server
         # run: node ${{ github.workspace }}/dev-tools/server/index.js
         run: npx http-server ${{ github.workspace }}/dev-tools/server/index.js --port 3000 &
-      - name: Start tests
-        run: node ${{ github.workspace }}/dev-tools/snapshot-all.js
+      # - run: echo "Run script at "
+      - name: Start tests ${{ github.workspace }}/dev-tools/snapshot-all.js
+        run: node ${{ github.workspace }}/dev-tools/snapshot-all.js &
       # - name: Serve Storybook and run tests
       #   run: npx http-server storybook-static --port 6006 --silent
       #   env:
