@@ -49,6 +49,8 @@ jobs:
             "npx wait-on tcp:6006" \
       - name: Start server
         run: node ${{ github.workspace }}/dev-tools/server/index.js
+      - name: Start tests
+        run: node ${{ github.workspace }}/dev-tools/server/snapshot-all.js
       # - name: Serve Storybook and run tests
       #   run: npx http-server storybook-static --port 6006 --silent
       #   env:
