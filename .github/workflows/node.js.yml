@@ -74,11 +74,12 @@ jobs:
         run: |
           # Define the new branch name (e.g., feature/branch-name)
           NEW_BRANCH_NAME="feature/your-branch-name"
-
+          git status
           # Create the new branch from the current commit
           git checkout -b "$NEW_BRANCH_NAME"
           git config user.email "kirk.robertson@iag.com.au"
           git config user.name "Kirk Robertson"
+          git status
           git commit -am "Your commit message"
           # Push the new branch to the remote repository
           git push origin "$NEW_BRANCH_NAME"
