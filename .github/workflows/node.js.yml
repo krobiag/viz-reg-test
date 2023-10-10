@@ -19,9 +19,9 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
-  
+
 permissions:
-    actions: read|write|none
+  actions: read|write|none
 
 jobs:
 
