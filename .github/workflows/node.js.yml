@@ -82,10 +82,12 @@ jobs:
           git status
           git add .
           git commit -m "Your commit message3"
-          # git remote set-url origin "https://${{ github.actor }}:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git remote set-url origin "https://${{ github.actor }}:${{ REG_VIZ_TOKEN }}@github.com/${{ github.repository }}.git"
 
           # Push the new branch to the remote repository
           git push origin "$NEW_BRANCH_NAME"
+        env:
+          REG_VIZ_TOKEN: ${{ secrets.REG_VIZ_TOKEN }}
       # - name: Setup Pages
       #   uses: actions/configure-pages@v3
       # - name: Upload artifact
