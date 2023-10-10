@@ -24,4 +24,5 @@ storybook-static
 *.sln
 *.sw?
 .reg
-# .storybook/__snapshots__
+.storybook/__snapshots__/diff
+.storybook/__snapshots__/current

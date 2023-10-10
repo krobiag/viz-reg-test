@@ -1,8 +1,8 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on:
-  push:
-    branches: ["develop"]
+# on:
+#   push:
+#     branches: ["develop"]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -12,9 +12,9 @@ jobs:
 
       - name: Switch to target branch
         run: |
-        git checkout -b feature/my-feature-branch # Replace with your target branch name
-        git config user.email "kirk.robertson@iag.com.au"
-        git config user.name "Kirk Robertson"
+          git checkout -b feature/my-feature-branch # Replace with your target branch name
+          git config user.email "kirk.robertson@iag.com.au"
+          git config user.name "Kirk Robertson"
 
       - name: Make changes
         run: |

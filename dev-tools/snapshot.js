@@ -140,15 +140,15 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
     fs.mkdirSync(storybookRootPath);
   }
 
-  const storybookRootPathLocal = `${root}/.storybook/__snapshots__/local`
+  const storybookRootPathLocal = `${root}/.storybook/__snapshots__/current`
   if (!fs.existsSync(storybookRootPathLocal)) {
     fs.mkdirSync(storybookRootPathLocal);
   }
 
-  const storybookRootPathRemote = `${root}/.storybook/__snapshots__/remote`
-  if (!fs.existsSync(storybookRootPathRemote)) {
-    fs.mkdirSync(storybookRootPathRemote);
-  }
+  // const storybookRootPathRemote = `${root}/.storybook/__snapshots__/reference`
+  // if (!fs.existsSync(storybookRootPathRemote)) {
+  //   fs.mkdirSync(storybookRootPathRemote);
+  // }
 
   const snapshotData = {
     input: testData.input,
@@ -161,14 +161,14 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
   fs.writeFileSync(`${snapshotPathWithName}.yaml`, YAML.stringify(snapshotData));
   // reg-cli ./.storybook/__snapshots__/local/ ./.storybook/__snapshots__/remote/ ./.storybook/__snapshots__/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json
   const imageBuffer = await page.screenshot({ fullPage: true })//({ path: `${snapshotPathWithName}.png`, fullPage: true });
-  fs.writeFileSync(`${storybookRootPath}/local/${snapshotName}.png`, imageBuffer);
+  fs.writeFileSync(`${storybookRootPath}/current/${snapshotName}.png`, imageBuffer);
   // console.log(">>snapshotPathWithName", snapshotPathWithName)
   const remoteImageBuffer = getExpectedImage(`${snapshotPathWithName}`, 'main', imageBuffer, true)
   let imageDiff = {}
-  if (remoteImageBuffer) {
-    fs.writeFileSync(`${storybookRootPath}/remote/${snapshotName}.png`, remoteImageBuffer);
-    imageDiff = getImageDiff(imageBuffer, remoteImageBuffer)
-  }
+  // if (remoteImageBuffer) {
+  //   fs.writeFileSync(`${storybookRootPath}/reference/${snapshotName}.png`, remoteImageBuffer);
+  //   imageDiff = getImageDiff(imageBuffer, remoteImageBuffer)
+  // }
   
   // const testGitLs = await gitListDirectory('src')decodeURIComponent
   // console.log(">>testGitLs", testGitLs)
