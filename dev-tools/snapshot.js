@@ -129,7 +129,8 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
       .filter((_, i) => i !== 0)
       .reverse()
       .join('/') + '/__snapshots__';
-  const snapshotName = testData.title.split('/').reverse()[0] + '-' + testData.story.replace(/ /g,"");
+  const snapshotName = testData.title.split('/').reverse()[0] + '-' + testData.story;
+  //.replace(/ /g,"")
   const root = path.join(__dirname, '..')
   
   if (!fs.existsSync(snapShotPath)) {
@@ -163,7 +164,7 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
   const imageBuffer = await page.screenshot({ fullPage: true })//({ path: `${snapshotPathWithName}.png`, fullPage: true });
   fs.writeFileSync(`${storybookRootPath}/current/${snapshotName}.png`, imageBuffer);
   // console.log(">>snapshotPathWithName", snapshotPathWithName)
-  const remoteImageBuffer = getExpectedImage(`${snapshotPathWithName}`, 'main', imageBuffer, true)
+  // const remoteImageBuffer = getExpectedImage(`${snapshotPathWithName}`, 'main', imageBuffer, true)
   let imageDiff = {}
   // if (remoteImageBuffer) {
   //   fs.writeFileSync(`${storybookRootPath}/reference/${snapshotName}.png`, remoteImageBuffer);
@@ -186,7 +187,7 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
       image: `${snapshotPathWithName}.png`,
       buffer: {
         local: imageBuffer,
-        remote: remoteImageBuffer
+        // remote: remoteImageBuffer
       },
       ...imageDiff
     }

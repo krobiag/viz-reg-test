@@ -1,10 +1,13 @@
 import { launch } from "puppeteer";
 import axios from 'axios';
 import captureStory from './snapshot.js';
-
+import { execSync } from 'child_process';
 const browser = launch();
 const page = browser.then(b => b.newPage())
-
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const run = async () => {
     try {
@@ -13,32 +16,27 @@ const run = async () => {
      
         
         const {data} = getAll;
-
+        const storybookPath = path.join(__dirname, "../.storybook/__snapshots__")
+        execSync(`rm -rf ${storybookPath}/current ${storybookPath}/diff ${storybookPath}/reg.json ${storybookPath}/report.html`)
         const {entries} = data;
-        for (const storyId of Object.keys(entries)) {
+        const storyEntries = Object.keys(entries)
+
+        let index = 1;
+        for (const storyId of storyEntries) {
             try {
                 const res = await captureStory(storyId, browser, page)
             } catch (error) {
                 console.log(">>ERROR", error)
             }
-            
-            // console.log(">>res", res)
+            if ((index) === storyEntries.length) {
+                process.exit(0)
+            }
+            index++;
             
         }
     } catch (error) {
         console.log(">>ERROR", error)
     }
-    
-
-    // axios.get('http://localhost:6006/index.json')
-    // .then(async ({data: {entries}}) => {
-    //     for (const storyId of Object.keys(entries)) {
-    //         await captureStory(storyId, browser, page)
-    //     }
-    // })
-    // .then(async () => {
-    //     await (await browser).close()
-    // })
 }
 
 run()

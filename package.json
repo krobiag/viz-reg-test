@@ -14,7 +14,9 @@
     "server": "nodemon ./dev-tools/server/index.js",
     "serve-storybook": "concurrently \"yarn server\" \"yarn storybook\"",
     "test-cmd": "concurrently",
-    "reg": "reg-cli ./.storybook/__snapshots__/current/ ./.storybook/__snapshots__/reference/ ./.storybook/__snapshots__/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json"
+    "reg": "reg-cli ./.storybook/__snapshots__/current/ ./.storybook/__snapshots__/reference/ ./.storybook/__snapshots__/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json",
+    "snapshots": "node dev-tools/snapshot-all.js",
+    "snapshots-run": "yarn snapshots && yarn reg"
   },
   "dependencies": {
     "axios": "^1.5.1",
