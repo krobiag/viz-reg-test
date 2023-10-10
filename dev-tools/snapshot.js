@@ -5,17 +5,51 @@ import fs from 'fs'
 import YAML from 'yaml'
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
-import { execSync } from 'child_process'
+import { execSync, exec as childExec } from 'child_process'
+
+import path from 'path';
+import util from 'util'
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const exec = util.promisify(childExec);
 
 export const checkIfFileExists = (file) => {
   return fs.existsSync(file)
 }
 
-export const getExpectedImage = (snapShotPath, parentBranch = 'ahmed-playground', imageToCompare) => {
+export const gitListDirectory = async (path, parentBranch = 'main') => {
+  //return exec(`git ls-tree --name-only ${parentBranch}:./${path}`);
+  return await exec(`git ls-tree --name-only HEAD ${path}/`)
+  
+  // git ls-tree --name-only HEAD src
+  // exec(`git ls-tree --name-only HEAD src/`, (error, stdout, stderr) => {
+  //   if (error) {
+  //     console.error(`Error executing Git command: ${error}`);
+  //     return;
+  //   }
+  
+  //   // Process the output (stdout) of the Git command
+  //   const files = stdout.trim().split('\n');
+  //   console.log('Files in the directory:', files);
+  //   files.forEach((file) => {
+  //     console.log(file);
+  //   });
+  
+  //   if (stderr) {
+  //     console.error(`Git command stderr: ${stderr}`);
+  //   }
+  // });
+  // return false
+}
+
+export const getExpectedImage = (snapShotPath, parentBranch = 'ahmed-playground', imageToCompare, ignoreCompare = false) => {
+  console.log(">>looking for remote image: ", snapShotPath)
   try {
     return execSync(`git show ${parentBranch}:./${snapShotPath}.png`);
   } catch (error) {
-    // console.log(">>ERROR > getExpectedImage", error)
+    if (ignoreCompare) return false
+    console.log(">>ERROR > getExpectedImage", error)
     const imageFromBuffer = PNG.sync.read(imageToCompare)
     const {width, height} = imageFromBuffer
     const png = new PNG({ width, height });
@@ -87,6 +121,7 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
   const testData = await page.evaluate(function () {
     return window['__TEST_DATA__'];
   });
+
   const snapShotPath =
     testData.fileName
       .split('/')
@@ -94,11 +129,27 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
       .filter((_, i) => i !== 0)
       .reverse()
       .join('/') + '/__snapshots__';
-  const snapshotName = testData.title.split('/').reverse()[0] + '-' + testData.story;
+  const snapshotName = testData.title.split('/').reverse()[0] + '-' + testData.story.replace(/ /g,"");
+  const root = path.join(__dirname, '..')
   
   if (!fs.existsSync(snapShotPath)) {
     fs.mkdirSync(snapShotPath);
   }
+  const storybookRootPath = `${root}/.storybook/__snapshots__`
+  if (!fs.existsSync(storybookRootPath)) {
+    fs.mkdirSync(storybookRootPath);
+  }
+
+  const storybookRootPathLocal = `${root}/.storybook/__snapshots__/local`
+  if (!fs.existsSync(storybookRootPathLocal)) {
+    fs.mkdirSync(storybookRootPathLocal);
+  }
+
+  const storybookRootPathRemote = `${root}/.storybook/__snapshots__/remote`
+  if (!fs.existsSync(storybookRootPathRemote)) {
+    fs.mkdirSync(storybookRootPathRemote);
+  }
+
   const snapshotData = {
     input: testData.input,
     output: testData.output,
@@ -108,17 +159,26 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
   };
   const snapshotPathWithName =`${snapShotPath}/${snapshotName}`
   fs.writeFileSync(`${snapshotPathWithName}.yaml`, YAML.stringify(snapshotData));
+  // reg-cli ./.storybook/__snapshots__/local/ ./.storybook/__snapshots__/remote/ ./.storybook/__snapshots__/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json
   const imageBuffer = await page.screenshot({ fullPage: true })//({ path: `${snapshotPathWithName}.png`, fullPage: true });
-  const remoteImageBuffer = getExpectedImage(`${snapshotPathWithName}`, 'main', imageBuffer)
-
-  const imageDiff = getImageDiff(imageBuffer, remoteImageBuffer)
+  fs.writeFileSync(`${storybookRootPath}/local/${snapshotName}.png`, imageBuffer);
+  console.log(">>snapshotPathWithName", snapshotPathWithName)
+  const remoteImageBuffer = getExpectedImage(`${snapshotPathWithName}`, 'main', imageBuffer, true)
+  let imageDiff = {}
+  if (remoteImageBuffer) {
+    fs.writeFileSync(`${storybookRootPath}/remote/${snapshotName}.png`, remoteImageBuffer);
+    imageDiff = getImageDiff(imageBuffer, remoteImageBuffer)
+  }
+  
+  // const testGitLs = await gitListDirectory('src')decodeURIComponent
+  // console.log(">>testGitLs", testGitLs)
+  
   
   if (!pagePromise) page.close();
   console.log(`Completed capture of ${storyId} in ${Date.now() - start} ms.`);
   // http://localhost:3000/checkStory/src/stories/__snapshots__/Button-Primary/?id=changed-img.png
-  const comparePath = imageDiff?.match > 0 || imageDiff?.isNew ? `; Compare: http://localhost:3000/checkStory/${snapshotPathWithName}/?id=changed-img.png&storyId=${storyId}` : ''
-  console.log(`\x1b[102mStory book snaphot! \x1b[0m New: ${imageDiff?.isNew}; Change detected: ${imageDiff?.match > 0}${comparePath}`);
-  //log('%c hello world ', 'background: #222; color: #bada55')
+  // const comparePath = imageDiff?.match > 0 || imageDiff?.isNew ? `; Compare: http://localhost:3000/checkStory/${snapshotPathWithName}/?id=changed-img.png&storyId=${storyId}` : ''
+  // console.log(`\x1b[102mStory book snaphot! \x1b[0m New: ${imageDiff?.isNew}; Change detected: ${imageDiff?.match > 0}${comparePath}`);
   return {
     snapshotData,
     visualSnapShot: `${snapshotPathWithName}.png`,

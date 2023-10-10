@@ -64,15 +64,15 @@ jobs:
       - name: Start tests ${{ github.workspace }}/dev-tools/snapshot-all.js
         run: node ${{ github.workspace }}/dev-tools/snapshot-all.js &
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: "./storybook-static"
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+      # - name: Setup Pages
+      #   uses: actions/configure-pages@v3
+      # - name: Upload artifact
+      #   uses: actions/upload-pages-artifact@v2
+      #   with:
+      #     path: "./storybook-static"
+      # - name: Deploy to GitHub Pages
+      #   id: deployment
+      #   uses: actions/deploy-pages@v2
       # - name: Serve Storybook and run tests
       #   run: npx http-server storybook-static --port 6006 --silent
       #   env:

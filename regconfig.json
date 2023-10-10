@@ -1,0 +1,22 @@
+{
+  "sourceBranch": "main",
+  "targetBranch": "feature/my-feature",
+  "baseDir": "visual-tests",
+  "outputDir": "regression-results",
+  "thresholds": {
+    "pixel": 10,
+    "percent": 0.01
+  },
+  "scenarios": [
+    {
+      "label": "Button Component",
+      "url": "http://localhost:6006/iframe.html?id=button--default",
+      "readySelector": ".storybook-button"
+    }
+    
+  ],
+  
+  "plugins": [
+    "reg-suit-puppeteer"
+  ]
+}
