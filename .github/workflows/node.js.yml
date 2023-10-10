@@ -77,6 +77,8 @@ jobs:
 
           # Create the new branch from the current commit
           git checkout -b "$NEW_BRANCH_NAME"
+          git config user.email "kirk.robertson@iag.com.au"
+          git config user.name "Kirk Robertson"
           git commit -am "Your commit message"
           # Push the new branch to the remote repository
           git push origin "$NEW_BRANCH_NAME"
