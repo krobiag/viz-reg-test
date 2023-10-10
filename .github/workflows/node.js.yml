@@ -69,7 +69,7 @@ jobs:
       - name: run reg-cli
         run: |
           STORYBOOK_PATH="./.storybook/__snapshots__"
-          reg-cli STORYBOOK_PATH/local/ STORYBOOK_PATH/remote/ STORYBOOK_PATH/diff/ -R .STORYBOOK_PATH/report.html -J STORYBOOK_PATH/reg.json
+          npx reg-cli STORYBOOK_PATH/local/ STORYBOOK_PATH/remote/ STORYBOOK_PATH/diff/ -R .STORYBOOK_PATH/report.html -J STORYBOOK_PATH/reg.json
       - name: Create New Branch
         run: |
           # Define the new branch name (e.g., feature/branch-name)
