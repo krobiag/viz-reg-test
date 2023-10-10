@@ -11,7 +11,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Switch to target branch
-        run: git checkout -b feature/my-feature-branch # Replace with your target branch name
+        run: |
+        git checkout -b feature/my-feature-branch # Replace with your target branch name
+        git config user.email "kirk.robertson@iag.com.au"
+        git config user.name "Kirk Robertson"
 
       - name: Make changes
         run: |

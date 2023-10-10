@@ -79,7 +79,7 @@ jobs:
           git checkout -b "$NEW_BRANCH_NAME"
           git config user.email "kirk.robertson@iag.com.au"
           git config user.name "Kirk Robertson"
-          git status
+
           git add .
           git commit -m "Your commit message3"
           echo "TOKEN $REG_VIZ_TOKEN"
