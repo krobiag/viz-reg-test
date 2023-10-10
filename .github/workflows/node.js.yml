@@ -21,6 +21,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  permissions:
+    actions: read|write|none
   build:
     runs-on: ubuntu-latest
 
