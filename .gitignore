@@ -26,3 +26,5 @@ storybook-static
 .reg
 .storybook/__snapshots__/diff
 .storybook/__snapshots__/current
+.storybook/__snapshots__/reg.json
+.storybook/__snapshots__/report.html
