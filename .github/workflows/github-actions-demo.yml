@@ -7,6 +7,21 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+          uses: actions/checkout@v2
+
+      - name: Switch to target branch
+        run: git checkout -b feature/my-feature-branch # Replace with your target branch name
+
+      - name: Make changes
+        run: |
+          echo "Hello, World!" >> myfile.txt # Replace with your change logic
+          git add .
+          git commit -m "Committing changes"
+
+      - name: Push changes
+        run: git push origin feature/my-feature-branch # Replace with your target branch name
+
       - run: echo "https://${{ github.actor }}:${{ github.token }}@github.com/${{ github.repository }}.git"
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
