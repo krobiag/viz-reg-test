@@ -82,6 +82,7 @@ jobs:
           git status
           git add .
           git commit -m "Your commit message3"
+          echo "TOKEN $REG_VIZ_TOKEN"
           git remote set-url origin "https://${{ github.actor }}:$REG_VIZ_TOKEN@github.com/${{ github.repository }}.git"
 
           # Push the new branch to the remote repository
