@@ -66,6 +66,19 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}/.storybook
+      - name: run reg-cli
+        STORYBOOK_PATH="./.storybook/__snapshots__"
+        run: reg-cli STORYBOOK_PATH/local/ STORYBOOK_PATH/remote/ STORYBOOK_PATH/diff/ -R .STORYBOOK_PATH/report.html -J STORYBOOK_PATH/reg.json
+      - name: Create New Branch
+        run: |
+          # Define the new branch name (e.g., feature/branch-name)
+          NEW_BRANCH_NAME="feature/your-branch-name"
+
+          # Create the new branch from the current commit
+          git checkout -b "$NEW_BRANCH_NAME"
+          git commit -am "Your commit message"
+          # Push the new branch to the remote repository
+          git push origin "$NEW_BRANCH_NAME"
       # - name: Setup Pages
       #   uses: actions/configure-pages@v3
       # - name: Upload artifact
