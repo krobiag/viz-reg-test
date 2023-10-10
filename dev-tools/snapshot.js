@@ -44,7 +44,7 @@ export const gitListDirectory = async (path, parentBranch = 'main') => {
 }
 
 export const getExpectedImage = (snapShotPath, parentBranch = 'ahmed-playground', imageToCompare, ignoreCompare = false) => {
-  console.log(">>looking for remote image: ", snapShotPath)
+  // console.log(">>looking for remote image: ", snapShotPath)
   try {
     return execSync(`git show ${parentBranch}:./${snapShotPath}.png`);
   } catch (error) {
@@ -162,7 +162,7 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
   // reg-cli ./.storybook/__snapshots__/local/ ./.storybook/__snapshots__/remote/ ./.storybook/__snapshots__/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json
   const imageBuffer = await page.screenshot({ fullPage: true })//({ path: `${snapshotPathWithName}.png`, fullPage: true });
   fs.writeFileSync(`${storybookRootPath}/local/${snapshotName}.png`, imageBuffer);
-  console.log(">>snapshotPathWithName", snapshotPathWithName)
+  // console.log(">>snapshotPathWithName", snapshotPathWithName)
   const remoteImageBuffer = getExpectedImage(`${snapshotPathWithName}`, 'main', imageBuffer, true)
   let imageDiff = {}
   if (remoteImageBuffer) {
