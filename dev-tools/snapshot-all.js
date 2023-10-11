@@ -18,7 +18,8 @@ const run = async () => {
         const {data} = getAll;
         const storybookPath = path.join(__dirname, "../.storybook/__snapshots__")
         const storybookAssetsPath = `${storybookPath}/docs/assets`
-        execSync(`rm -rf ${storybookAssetsPath}/current ${storybookAssetsPath}/diff ${storybookPath}/reg.json ${storybookPath}/report.html`)
+        execSync(`rm -rf ${storybookAssetsPath}/current ${storybookAssetsPath}/diff ${storybookPath}/reg.json ${storybookPath}/index.html`)
+        
         const {entries} = data;
         const storyEntries = Object.keys(entries)
 

@@ -15,8 +15,8 @@
     "serve-storybook": "concurrently \"yarn server\" \"yarn storybook\"",
     "test-cmd": "concurrently",
     "cp": "cp -r ./.storybook/__snapshots__/reference ./.storybook/__snapshots__/docs/assets/",
-    "reg:diff": "cp -r ./.storybook/__snapshots__/reference ./.storybook/__snapshots__/docs/assets/ && reg-cli ./.storybook/__snapshots__/docs/assets/current/ ./.storybook/__snapshots__/docs/assets/reference/ ./.storybook/__snapshots__/docs/assets/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json",
-    "reg:update": "reg-cli ./.storybook/__snapshots__/docs/assets/current/ ./.storybook/__snapshots__/reference/ ./.storybook/__snapshots__/docs/assets/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json -U",
+    "reg:diff": "cp -r ./.storybook/__snapshots__/reference ./.storybook/__snapshots__/docs/assets/ && reg-cli ./.storybook/__snapshots__/docs/assets/current/ ./.storybook/__snapshots__/docs/assets/reference/ ./.storybook/__snapshots__/docs/assets/diff/ -R ./.storybook/__snapshots__/index.html -J ./.storybook/__snapshots__/reg.json",
+    "reg:update": "reg-cli ./.storybook/__snapshots__/docs/assets/current/ ./.storybook/__snapshots__/reference/ ./.storybook/__snapshots__/docs/assets/diff/ -R ./.storybook/__snapshots__/index.html -J ./.storybook/__snapshots__/reg.json -U",
     "snapshots": "node dev-tools/snapshot-all.js",
     "snapshots:run": "yarn snapshots && yarn reg:diff"
   },
