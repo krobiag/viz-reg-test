@@ -37,8 +37,10 @@ jobs:
         uses: actions/configure-pages@v3
       - name: Copy specific directory
         run: |
-          mkdir -p tmp/${{ github.ref_name }}/  # Create a directory to copy your files
-          cp -r .storybook/__snapshots__/* tmp/${{ github.ref_name }}/
+          # mkdir -p tmp/${{ github.ref_name }}/  # Create a directory to copy your files
+          # cp -r .storybook/__snapshots__/* tmp/${{ github.ref_name }}/
+          mkdir -p tmp/my-new-branch/  # Create a directory to copy your files
+          cp -r .storybook/__snapshots__/* tmp/my-new-branch/
         working-directory: ${{ github.workspace }}
 
       - name: List files
