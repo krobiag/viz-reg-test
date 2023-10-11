@@ -33,17 +33,24 @@ jobs:
         uses: actions/checkout@v3
         with:
           lfs: true # Fetches LFS data
-      # - name: Setup Pages
-      #   uses: actions/configure-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./.storybook/__snapshots__
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
       # - name: Upload artifact
       #   uses: actions/upload-pages-artifact@v2
       #   with:
       #     path: "./.storybook/__snapshots__"
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: ./.storybook/__snapshots__ # The folder the action should deploy.
-          # target-folder: bob
-      # - name: Deploy to GitHub Pages
-      #   id: deployment
-      #   uses: actions/deploy-pages@v2
+      # - name: Deploy 🚀
+      #   uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     folder: ./.storybook/__snapshots__ # The folder the action should deploy.
+      # target-folder: bob
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
