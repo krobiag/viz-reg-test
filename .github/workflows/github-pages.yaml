@@ -35,15 +35,16 @@ jobs:
           lfs: true # Fetches LFS data
       - name: Setup Pages
         uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          # Upload entire repository
-          path: "./.storybook/__snapshots__"
+      # - name: Upload artifact
+      #   uses: actions/upload-pages-artifact@v2
+      #   with:
+      #     # Upload entire repository
+      #     path: "./.storybook/__snapshots__"
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build # The folder the action should deploy.
+          folder: "./.storybook/__snapshots__" # The folder the action should deploy.
+          target-folder: "bob"
       # - name: Deploy to GitHub Pages
       #   id: deployment
       #   uses: actions/deploy-pages@v2
