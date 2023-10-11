@@ -33,19 +33,23 @@ jobs:
         uses: actions/checkout@v3
         with:
           lfs: true # Fetches LFS data
+
+      - name: List Files in GitHub Pages
+        run: |
+          ls -la
+        working-directory: . # Adjust to your GitHub Pages directory
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Copy specific directory
         run: |
-          # mkdir -p tmp/${{ github.ref_name }}/  # Create a directory to copy your files
-          # cp -r .storybook/__snapshots__/* tmp/${{ github.ref_name }}/
-          mkdir -p tmp/my-new-branch/  # Create a directory to copy your files
-          cp -r .storybook/__snapshots__/* tmp/my-new-branch/
+          mkdir -p tmp/${{ github.ref_name }}/  # Create a directory to copy your files
+          cp -r .storybook/__snapshots__/* tmp/${{ github.ref_name }}/
         working-directory: ${{ github.workspace }}
 
-      - name: List files
-        run: |
-          ls -la && cd tmp && ls -la
+      # - name: List files
+      #   run: |
+      #     ls -la && cd tmp && ls -la
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
