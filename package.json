@@ -14,9 +14,11 @@
     "server": "nodemon ./dev-tools/server/index.js",
     "serve-storybook": "concurrently \"yarn server\" \"yarn storybook\"",
     "test-cmd": "concurrently",
-    "reg": "reg-cli ./.storybook/__snapshots__/current/ ./.storybook/__snapshots__/reference/ ./.storybook/__snapshots__/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json",
+    "cp": "cp -r ./.storybook/__snapshots__/reference ./.storybook/__snapshots__/docs/assets/",
+    "reg:diff": "cp -r ./.storybook/__snapshots__/reference ./.storybook/__snapshots__/docs/assets/ && reg-cli ./.storybook/__snapshots__/docs/assets/current/ ./.storybook/__snapshots__/docs/assets/reference/ ./.storybook/__snapshots__/docs/assets/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json",
+    "reg:update": "reg-cli ./.storybook/__snapshots__/docs/assets/current/ ./.storybook/__snapshots__/reference/ ./.storybook/__snapshots__/docs/assets/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json -U",
     "snapshots": "node dev-tools/snapshot-all.js",
-    "snapshots-run": "yarn snapshots && yarn reg"
+    "snapshots:run": "yarn snapshots && yarn reg:diff"
   },
   "dependencies": {
     "axios": "^1.5.1",

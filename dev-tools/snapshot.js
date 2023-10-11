@@ -132,19 +132,26 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
   const snapshotName = testData.title.split('/').reverse()[0] + '-' + testData.story;
   //.replace(/ /g,"")
   const root = path.join(__dirname, '..')
+  // const storybookRootPath = `${root}/.storybook/__snapshots__`
+  const storybookRootPathLocal = `${root}/.storybook/__snapshots__/docs/assets/current`
+  const directoriesToMake = [root, storybookRootPathLocal]
   
-  if (!fs.existsSync(snapShotPath)) {
-    fs.mkdirSync(snapShotPath);
-  }
-  const storybookRootPath = `${root}/.storybook/__snapshots__`
-  if (!fs.existsSync(storybookRootPath)) {
-    fs.mkdirSync(storybookRootPath);
+  for (const dir of directoriesToMake) {
+    fs.mkdirSync(dir, { recursive: true });
   }
 
-  const storybookRootPathLocal = `${root}/.storybook/__snapshots__/current`
-  if (!fs.existsSync(storybookRootPathLocal)) {
-    fs.mkdirSync(storybookRootPathLocal);
-  }
+  // if (!fs.existsSync(snapShotPath)) {
+  //   fs.mkdirSync(snapShotPath);
+  // }
+  
+  // if (!fs.existsSync(storybookRootPath)) {
+  //   fs.mkdirSync(storybookRootPath);
+  // }
+
+  
+  // if (!fs.existsSync(storybookRootPathLocal)) {
+  //   fs.mkdirSync(storybookRootPathLocal);
+  // }
 
   // const storybookRootPathRemote = `${root}/.storybook/__snapshots__/reference`
   // if (!fs.existsSync(storybookRootPathRemote)) {
@@ -162,7 +169,7 @@ const captureStory = async (storyId, browserPromise, pagePromise) => {
   fs.writeFileSync(`${snapshotPathWithName}.yaml`, YAML.stringify(snapshotData));
   // reg-cli ./.storybook/__snapshots__/local/ ./.storybook/__snapshots__/remote/ ./.storybook/__snapshots__/diff/ -R ./.storybook/__snapshots__/report.html -J ./.storybook/__snapshots__/reg.json
   const imageBuffer = await page.screenshot({ fullPage: true })//({ path: `${snapshotPathWithName}.png`, fullPage: true });
-  fs.writeFileSync(`${storybookRootPath}/current/${snapshotName}.png`, imageBuffer);
+  fs.writeFileSync(`${storybookRootPathLocal}/${snapshotName}.png`, imageBuffer);
   // console.log(">>snapshotPathWithName", snapshotPathWithName)
   // const remoteImageBuffer = getExpectedImage(`${snapshotPathWithName}`, 'main', imageBuffer, true)
   let imageDiff = {}
