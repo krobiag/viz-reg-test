@@ -38,13 +38,12 @@ jobs:
       # - name: Upload artifact
       #   uses: actions/upload-pages-artifact@v2
       #   with:
-      #     # Upload entire repository
       #     path: "./.storybook/__snapshots__"
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: ./.storybook/__snapshots__ # The folder the action should deploy.
-          target-folder: bob
+          # target-folder: bob
       # - name: Deploy to GitHub Pages
       #   id: deployment
       #   uses: actions/deploy-pages@v2
