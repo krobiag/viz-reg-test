@@ -36,7 +36,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: copy to directory
-        run: cp -r ./.storybook/__snapshots__ ./tmp/branch-name/
+        run: |
+        mkdir -r ./tmp/branch-name/
+        cp -r ./.storybook/__snapshots__ ./tmp/branch-name/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
