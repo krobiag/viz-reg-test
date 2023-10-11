@@ -43,7 +43,7 @@ jobs:
 
       - name: List files
         run: |
-          ls -la && cd .tmp && ls -la
+          ls -la && cd tmp && ls -la
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
