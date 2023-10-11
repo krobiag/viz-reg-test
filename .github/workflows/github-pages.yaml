@@ -43,8 +43,8 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: "./.storybook/__snapshots__" # The folder the action should deploy.
-          target-folder: "bob"
+          folder: ./.storybook/__snapshots__ # The folder the action should deploy.
+          target-folder: bob
       # - name: Deploy to GitHub Pages
       #   id: deployment
       #   uses: actions/deploy-pages@v2
