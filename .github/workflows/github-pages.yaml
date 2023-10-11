@@ -35,17 +35,12 @@ jobs:
           lfs: true # Fetches LFS data
       - name: Setup Pages
         uses: actions/configure-pages@v3
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./.storybook/__snapshots__
-          destination: ./_site
+      - name: copy to directory
+        run: cp -r ./.storybook/__snapshots__ ./test_dir/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
-      # - name: Upload artifact
-      #   uses: actions/upload-pages-artifact@v2
-      #   with:
-      #     path: "./.storybook/__snapshots__"
+        with:
+          path: "./test_dir"
       # - name: Deploy 🚀
       #   uses: JamesIves/github-pages-deploy-action@v4
       #   with:
