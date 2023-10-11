@@ -40,6 +40,11 @@ jobs:
           mkdir -p tmp/${{ github.ref_name }}/  # Create a directory to copy your files
           cp -r .storybook/__snapshots__/* tmp/${{ github.ref_name }}/
         working-directory: ${{ github.workspace }}
+
+      - name: List files
+        run: |
+          ls -la && cd .tmp && ls -la
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
