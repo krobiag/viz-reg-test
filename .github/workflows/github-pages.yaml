@@ -35,23 +35,15 @@ jobs:
           lfs: true # Fetches LFS data
       - name: Setup Pages
         uses: actions/configure-pages@v3
-      # - name: copy to directory
-      #   run: |
-      #     mkdir -p ./tmp/branch-name/ && cp -r ./.storybook/__snapshots__/ ./tmp/branch-name/
       - name: Copy specific directory
         run: |
-          mkdir -p tmp/branch-name/  # Create a directory to copy your files
-          cp -r .storybook/__snapshots__/* tmp/branch-name/
+          mkdir -p tmp/${{ github.ref_name }}/  # Create a directory to copy your files
+          cp -r .storybook/__snapshots__/* tmp/${{ github.ref_name }}/
         working-directory: ${{ github.workspace }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
           path: "./tmp"
-      # - name: Deploy 🚀
-      #   uses: JamesIves/github-pages-deploy-action@v4
-      #   with:
-      #     folder: ./.storybook/__snapshots__ # The folder the action should deploy.
-      # target-folder: bob
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
