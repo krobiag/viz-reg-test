@@ -36,11 +36,11 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: copy to directory
-        run: cp -r ./.storybook/__snapshots__ ./test_dir/
+        run: cp -r ./.storybook/__snapshots__ ./tmp/branch-name/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: "./test_dir"
+          path: "./tmp"
       # - name: Deploy 🚀
       #   uses: JamesIves/github-pages-deploy-action@v4
       #   with:
