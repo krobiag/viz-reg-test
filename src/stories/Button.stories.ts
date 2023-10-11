@@ -27,7 +27,7 @@ export const Primary: Story = {
   args: {
     primary: true,
     label: "Button",
-    backgroundColor: "orange",
+    backgroundColor: "yellow",
   },
   play: async ({ canvasElement, componentId }) => {
     const canvas = within(canvasElement);
