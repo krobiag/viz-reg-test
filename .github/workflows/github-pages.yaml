@@ -64,10 +64,10 @@ jobs:
           mkdir -p tmp/deploy/branch/${{ github.ref_name }}/report  # Create a directory to copy your files
           cp -r storybook-static/* tmp/deploy/branch/${{ github.ref_name }}
           cp -r .storybook/__snapshots__/* tmp/deploy/branch/${{ github.ref_name }}/report
-          # mkdir -p deploy/branch/new-branch/report  # Create a directory to copy your files
-          # cp -r .storybook/__snapshots__/* deploy/branch/new-branch/report
+          echo "deploy filter=lfs diff=lfs merge=lfs -text" >> .gitattributes
+
           shopt -s extglob 
-          rm -rf -- !(tmp)
+          rm -rf -- !(tmp|.gitattributes)
         working-directory: ${{ github.workspace }}
 
       - name: Deploy
