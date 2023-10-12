@@ -89,6 +89,9 @@ jobs:
           lfs: true # Fetches LFS data
           ref: gh-pages
 
+      - name: TEST Ref
+        run: echo "Branch is ${{ github.ref }}"
+
       - name: Setup Git LFS
         run: git lfs install
 
