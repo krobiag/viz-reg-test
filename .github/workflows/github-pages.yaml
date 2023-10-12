@@ -42,7 +42,7 @@ jobs:
     #   - build-storybook
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: true # Fetches LFS data
 
@@ -84,7 +84,7 @@ jobs:
       #   run: git checkout -b gh-pages
 
       - name: Checkout gh-pages
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: true # Fetches LFS data
           ref: gh-pages
@@ -92,8 +92,11 @@ jobs:
       - name: TEST Ref
         run: echo "Branch is ${{ github.ref }}"
 
-      - name: Setup Git LFS
-        run: git lfs install
+      - name: LIST FILES
+        run: ls -la
+
+      # - name: Setup Git LFS
+      #   run: git lfs install
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
