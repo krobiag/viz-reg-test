@@ -73,6 +73,9 @@ jobs:
           rm -rf -- !("tmp")
         working-directory: ${{ github.workspace }}
 
+      - name: Setup Git LFS
+        run: git lfs install
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
