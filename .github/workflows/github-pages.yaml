@@ -43,13 +43,10 @@ jobs:
         uses: actions/configure-pages@v3
       - name: Copy specific directory
         run: |
-          # mkdir -p tmp/${{ github.ref_name }}/  # Create a directory to copy your files
-          # cp -r .storybook/__snapshots__/* tmp/${{ github.ref_name }}/
-          mkdir -p tmp/new-branch/  # Create a directory to copy your files
-          cp -r .storybook/__snapshots__/* tmp/new-branch/
-          # rm !(tmp)
-          # find . -type fd -not -name 'tmp'-delete
-          # find . ! -name 'tmp' -exec rm -r {} \;
+          # mkdir -p tmp/visual-diff/${{ github.ref_name }}/  # Create a directory to copy your files
+          # cp -r .storybook/__snapshots__/* tmp/visual-diff/${{ github.ref_name }}/
+          mkdir -p tmp/visual-diff/new-branch/  # Create a directory to copy your files
+          cp -r .storybook/__snapshots__/* tmp/visual-diff/new-branch/
           shopt -s extglob 
           rm -rf -- !(tmp)
         working-directory: ${{ github.workspace }}
@@ -69,5 +66,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: tmp
           # keep_files: true
