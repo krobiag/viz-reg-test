@@ -49,7 +49,7 @@ jobs:
           cp -r .storybook/__snapshots__/* tmp/new-branch/
           # rm !(tmp)
           # find . -type fd -not -name 'tmp'-delete
-          find /path/to/your/directory ! -name 'tmp' -exec rm -r {} \;
+          find . ! -name 'tmp' -exec rm -r {} \;
 
         working-directory: ${{ github.workspace }}
 
