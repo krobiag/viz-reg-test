@@ -82,8 +82,10 @@ jobs:
 
       # - name: Switch to gh-pages branch
       #   run: git checkout -b gh-pages
+      - name: TEST REPO
+        run: echo "repo is ${{ github.repository }}"
 
-      - name: Checkout
+      - name: Checkout gh-pages
         uses: actions/checkout@v3
         with:
           lfs: true # Fetches LFS data
