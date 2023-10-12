@@ -61,9 +61,10 @@ jobs:
 
       - name: Copy specific directory
         run: |
-          echo "deploy filter=lfs diff=lfs merge=lfs -text" >> .gitattributes
           mkdir -p tmp/deploy/branch/${{ github.ref_name }}/report  # Create a directory to copy your files
           cp .gitattributes tmp
+          echo "
+          deploy filter=lfs diff=lfs merge=lfs -text" >> tmp/.gitattributes
           cp -r storybook-static/* tmp/deploy/branch/${{ github.ref_name }}
           cp -r .storybook/__snapshots__/* tmp/deploy/branch/${{ github.ref_name }}/report
 
