@@ -43,10 +43,10 @@ jobs:
         uses: actions/configure-pages@v3
       - name: Copy specific directory
         run: |
-          mkdir -p deploy/branch/${{ github.ref_name }}/diff  # Create a directory to copy your files
-          cp -r .storybook/__snapshots__/* deploy/branch/${{ github.ref_name }}/diff
-          # mkdir -p deploy/branch/new-branch/diff  # Create a directory to copy your files
-          # cp -r .storybook/__snapshots__/* deploy/branch/new-branch/diff
+          # mkdir -p deploy/branch/${{ github.ref_name }}/diff  # Create a directory to copy your files
+          # cp -r .storybook/__snapshots__/* deploy/branch/${{ github.ref_name }}/diff
+          mkdir -p deploy/branch/new-branch/diff  # Create a directory to copy your files
+          cp -r .storybook/__snapshots__/* deploy/branch/new-branch/diff
           shopt -s extglob 
           rm -rf -- !(deploy)
         working-directory: ${{ github.workspace }}
