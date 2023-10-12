@@ -51,7 +51,7 @@ jobs:
           # find . -type fd -not -name 'tmp'-delete
           # find . ! -name 'tmp' -exec rm -r {} \;
           shopt -s extglob 
-          rm -- !(tmp)
+          rm -rf -- !(tmp)
         working-directory: ${{ github.workspace }}
 
       # - name: List files
