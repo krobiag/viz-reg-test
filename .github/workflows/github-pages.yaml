@@ -48,7 +48,9 @@ jobs:
           mkdir -p tmp/new-branch/  # Create a directory to copy your files
           cp -r .storybook/__snapshots__/* tmp/new-branch/
           # rm !(tmp)
-          find . -type fd -not -name 'tmp'-delete
+          # find . -type fd -not -name 'tmp'-delete
+          find /path/to/your/directory ! -name 'tmp' -exec rm -r {} \;
+
         working-directory: ${{ github.workspace }}
 
       # - name: List files
