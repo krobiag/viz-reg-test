@@ -43,22 +43,22 @@ jobs:
         uses: actions/configure-pages@v3
       - name: Copy specific directory
         run: |
-          # mkdir -p tmp/visual-diff/${{ github.ref_name }}/  # Create a directory to copy your files
-          # cp -r .storybook/__snapshots__/* tmp/visual-diff/${{ github.ref_name }}/
-          mkdir -p tmp/visual-diff/new-branch/  # Create a directory to copy your files
-          cp -r .storybook/__snapshots__/* tmp/visual-diff/new-branch/
+          # mkdir -p deploy/branch/${{ github.ref_name }}/diff  # Create a directory to copy your files
+          # cp -r .storybook/__snapshots__/* deploy/branch/${{ github.ref_name }}/diff
+          mkdir -p deploy/branch/new-branch/diff  # Create a directory to copy your files
+          cp -r .storybook/__snapshots__/* deploy/branch/new-branch/diff
           shopt -s extglob 
-          rm -rf -- !(tmp)
+          rm -rf -- !(deploy)
         working-directory: ${{ github.workspace }}
 
       # - name: List files
       #   run: |
       #     ls -la && cd tmp && ls -la
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: tmp
+      # - name: Upload artifact
+      #   uses: actions/upload-pages-artifact@v2
+      #   with:
+      #     path: tmp
       # - name: Deploy to GitHub Pages
       #   id: deployment
       #   uses: actions/deploy-pages@v2
@@ -66,5 +66,17 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: tmp
+          publish_dir: deploy
           # keep_files: true
+
+      - name: Switch to gh-pages branch
+        run: git checkout -b gh-pages
+
+       - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: deploy
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
