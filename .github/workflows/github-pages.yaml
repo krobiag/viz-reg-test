@@ -80,28 +80,16 @@ jobs:
           publish_dir: tmp
           keep_files: true
 
-      # - name: Switch to gh-pages branch
-      #   run: git checkout -b gh-pages
-
       - name: Checkout gh-pages
         uses: actions/checkout@v4
         with:
           lfs: true # Fetches LFS data
           ref: gh-pages
 
-      - name: TEST Ref
-        run: echo "Branch is ${{ github.ref }}"
-
-      - name: LIST FILES
-        run: ls -la
-
-      # - name: Setup Git LFS
-      #   run: git lfs install
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: tmp/deploy
+          path: deploy
 
       - name: Deploy to GitHub Pages
         id: deployment
