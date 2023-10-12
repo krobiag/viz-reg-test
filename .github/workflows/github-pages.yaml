@@ -73,15 +73,21 @@ jobs:
           rm -rf -- !("tmp")
         working-directory: ${{ github.workspace }}
 
-      - name: Deploy
+      - name: Add to gh-pages repo
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: tmp
           keep_files: true
 
-      - name: Switch to gh-pages branch
-        run: git checkout -b gh-pages
+      # - name: Switch to gh-pages branch
+      #   run: git checkout -b gh-pages
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: true # Fetches LFS data
+          repository: gh-pages
 
       - name: Setup Git LFS
         run: git lfs install
