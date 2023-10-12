@@ -72,11 +72,11 @@ jobs:
       - name: Switch to gh-pages branch
         run: git checkout -b gh-pages
 
-       - name: Upload artifact
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
           path: deploy
-          
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
