@@ -45,7 +45,8 @@ jobs:
       - name: Copy specific directory
         run: |
           # Create a directory to copy your files
-          mkdir -p tmp/deploy/branch/${{ github.ref_name }}/report
+          branch_base=tmp/deploy/branch/${{ github.ref_name }}
+          mkdir -p $branch_base/report
 
           # add git lfs to repo
           # cp .gitattributes tmp
@@ -54,10 +55,10 @@ jobs:
 
           # Generate a timestamp and store it in a file
           timestamp=$(date +%s)
-          echo $timestamp > tmp/timestamp.txt
+          echo $timestamp > $branch_base/timestamp.txt
 
-          cp -r storybook-static/* tmp/deploy/branch/${{ github.ref_name }}
-          cp -r .storybook/__snapshots__/* tmp/deploy/branch/${{ github.ref_name }}/report
+          cp -r storybook-static/* $branch_base
+          cp -r .storybook/__snapshots__/* $branch_base/report
 
           shopt -s extglob 
           rm -rf -- !("tmp")
