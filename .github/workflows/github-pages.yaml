@@ -1,8 +1,8 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy Storybook and snapshot to Github Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # Runs on pushes, ignoring the main branch
   push:
     branches-ignore: ["main"]
 
@@ -22,34 +22,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  # build-storybook:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Install dependencies
-  #       run: yarn --frozen-lockfile
-  #     - name: Build storybook
-  #       run: yarn build-storybook
-
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    # needs:
-    #   - build-storybook
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           lfs: true # Fetches LFS data
-
-      - name: List Files in GitHub Pages
-        run: |
-          ls -la
-        working-directory: . # Adjust to your GitHub Pages directory
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -61,13 +44,20 @@ jobs:
 
       - name: Copy specific directory
         run: |
-          mkdir -p tmp/deploy/branch/${{ github.ref_name }}/report  # Create a directory to copy your files
-          cp .gitattributes tmp
+          # Create a directory to copy your files
+          mkdir -p tmp/deploy/branch/${{ github.ref_name }}/report
+
+          # add git lfs to repo
+          # cp .gitattributes tmp
           echo "
           deploy/** filter=lfs diff=lfs merge=lfs -text" >> tmp/.gitattributes
+
+          # Generate a timestamp and store it in a file
+          timestamp=$(date +%s)
+          echo $timestamp > tmp/timestamp.txt
+
           cp -r storybook-static/* tmp/deploy/branch/${{ github.ref_name }}
           cp -r .storybook/__snapshots__/* tmp/deploy/branch/${{ github.ref_name }}/report
-
 
           shopt -s extglob 
           rm -rf -- !("tmp")
@@ -85,6 +75,11 @@ jobs:
         with:
           lfs: true # Fetches LFS data
           ref: gh-pages
+
+      - name: List Files in GitHub Pages
+        run: |
+          ls -la
+        working-directory: . # Adjust to your GitHub Pages directory
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
