@@ -98,7 +98,7 @@ jobs:
                   two_month_ago=$(( $(date +%s) - 100 ))  # 60 days * 24 hours * 3600 seconds
                   # Retrieve the timestamp from the file
                   branch_timestamp=$(cat $timestamp_file)    
-                  if [ "$branch_timestamp" -lt "$two_month_ago" ]; thens
+                  if [ "$branch_timestamp" -lt "$two_month_ago" ]; then
                       echo "Removing stale branch: $directory"
                       rm -rf $directory
                   fi
