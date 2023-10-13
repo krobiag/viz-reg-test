@@ -1,3 +1,2 @@
-.storybook/__snapshots__/**/*.png filter=lfs diff=lfs merge=lfs -text
-.storybook/__snapshots__/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+
 deploy/** filter=lfs diff=lfs merge=lfs -text
