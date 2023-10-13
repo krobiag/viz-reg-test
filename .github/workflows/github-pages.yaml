@@ -77,10 +77,35 @@ jobs:
           lfs: true # Fetches LFS data
           ref: gh-pages
 
-      - name: List Files in GitHub Pages
+      # - name: List Files in GitHub Pages
+      #   run: |
+      #     ls -la
+      #   working-directory: . # Adjust to your GitHub Pages directory
+
+      - name: Check for & remove stale branches
         run: |
-          ls -la
-        working-directory: . # Adjust to your GitHub Pages directory
+          base_directory="./deploy/branch"
+          # Use find to locate directories (including subdirectories)
+          # -type d specifies that we're looking for directories
+          # -print0 and -0 ensure that directory names with spaces are handled correctly
+          find "$base_directory" -type d -print0 | while IFS= read -d $'\0' directory; do
+
+              timestamp_file=timestamp.txt
+              file_path="$directory/$timestamp_file"
+              # Check if the file exists
+              if [ -e "$directory/$timestamp_file" ]; then
+                  # Calculate the timestamp for two months ago
+                  two_month_ago=$(( $(date +%s) - 100 ))  # 60 days * 24 hours * 3600 seconds
+                  # Retrieve the timestamp from the file
+                  branch_timestamp=$(cat $timestamp_file)    
+                  if [ "$branch_timestamp" -lt "$two_month_ago" ]; thens
+                      echo "Removing stale branch: $directory"
+                      rm -rf $directory
+                  fi
+              else
+                continue
+              fi
+          done
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
