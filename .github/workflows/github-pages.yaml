@@ -64,6 +64,44 @@ jobs:
           rm -rf -- !("tmp")
         working-directory: ${{ github.workspace }}
 
+      - name: Check for & remove stale branches
+        run: |
+          current_branch=${{ github.ref_name }}
+          git checkout -b gh-pages
+          base_directory="./deploy/branch"
+          ignore_assets=""
+          # Use find to locate directories (including subdirectories)
+          # -type d specifies that we're looking for directories
+          # -print0 and -0 ensure that directory names with spaces are handled correctly
+          find "$base_directory" -type d -print0 | while IFS= read -d $'\0' directory; do
+
+              timestamp_file=timestamp.txt
+              file_path="$directory/$timestamp_file"
+              # Check if the file exists
+              if [ -e "$directory/$timestamp_file" ]; then
+                  # Calculate the timestamp for two months ago
+                  two_month_ago=$(( $(date +%s) - 100 ))  # 60 days * 24 hours * 3600 seconds
+                  # Retrieve the timestamp from the file
+                  branch_timestamp=$(cat $timestamp_file)    
+                  if [ "$branch_timestamp" -lt "$two_month_ago" ]; then
+                      echo "Removing stale branch: $directory"
+                      # rm -rf $directory
+                      ignore_assets+=$directory
+                  fi
+              else
+                continue
+              fi
+          done
+          echo "ignore_assets=ignore_assets" >> $GITHUB_OUTPUT
+
+          # git remote rm origin
+          # git remote add origin ${{ secrets.GITHUB_TOKEN }}@github.com/krobiag/viz-reg-test.git
+          # git add --all
+          # git config user.email "kirk.robertson@iag.com.au"
+          # git config user.name "Kirk Robertson"
+          # git commit -m "remove stale branches"
+          # push origin gh-pages
+
       - name: Add to gh-pages repo
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -82,37 +120,37 @@ jobs:
       #     ls -la
       #   working-directory: . # Adjust to your GitHub Pages directory
 
-      - name: Check for & remove stale branches
-        run: |
-          base_directory="./deploy/branch"
-          # Use find to locate directories (including subdirectories)
-          # -type d specifies that we're looking for directories
-          # -print0 and -0 ensure that directory names with spaces are handled correctly
-          find "$base_directory" -type d -print0 | while IFS= read -d $'\0' directory; do
+      # - name: Check for & remove stale branches
+      #   run: |
+      #     base_directory="./deploy/branch"
+      #     # Use find to locate directories (including subdirectories)
+      #     # -type d specifies that we're looking for directories
+      #     # -print0 and -0 ensure that directory names with spaces are handled correctly
+      #     find "$base_directory" -type d -print0 | while IFS= read -d $'\0' directory; do
 
-              timestamp_file=timestamp.txt
-              file_path="$directory/$timestamp_file"
-              # Check if the file exists
-              if [ -e "$directory/$timestamp_file" ]; then
-                  # Calculate the timestamp for two months ago
-                  two_month_ago=$(( $(date +%s) - 100 ))  # 60 days * 24 hours * 3600 seconds
-                  # Retrieve the timestamp from the file
-                  branch_timestamp=$(cat $timestamp_file)    
-                  if [ "$branch_timestamp" -lt "$two_month_ago" ]; then
-                      echo "Removing stale branch: $directory"
-                      rm -rf $directory
-                  fi
-              else
-                continue
-              fi
-          done
-          git remote rm origin
-          git remote add origin ${{ secrets.GITHUB_TOKEN }}@github.com/krobiag/viz-reg-test.git
-          git add --all
-          git config user.email "kirk.robertson@iag.com.au"
-          git config user.name "Kirk Robertson"
-          git commit -m "remove stale branches"
-          push origin gh-pages
+      #         timestamp_file=timestamp.txt
+      #         file_path="$directory/$timestamp_file"
+      #         # Check if the file exists
+      #         if [ -e "$directory/$timestamp_file" ]; then
+      #             # Calculate the timestamp for two months ago
+      #             two_month_ago=$(( $(date +%s) - 100 ))  # 60 days * 24 hours * 3600 seconds
+      #             # Retrieve the timestamp from the file
+      #             branch_timestamp=$(cat $timestamp_file)
+      #             if [ "$branch_timestamp" -lt "$two_month_ago" ]; then
+      #                 echo "Removing stale branch: $directory"
+      #                 rm -rf $directory
+      #             fi
+      #         else
+      #           continue
+      #         fi
+      #     done
+      #     git remote rm origin
+      #     git remote add origin ${{ secrets.GITHUB_TOKEN }}@github.com/krobiag/viz-reg-test.git
+      #     git add --all
+      #     git config user.email "kirk.robertson@iag.com.au"
+      #     git config user.name "Kirk Robertson"
+      #     git commit -m "remove stale branches"
+      #     push origin gh-pages
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
