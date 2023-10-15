@@ -108,6 +108,8 @@ jobs:
           done
 
           git add --all
+          git config user.email "kirk.robertson@iag.com.au"
+          git config user.name "Kirk Robertson"
           git commit -m "remove stale branches"
           push origin gh-pages
 
