@@ -106,6 +106,7 @@ jobs:
                 continue
               fi
           done
+          git remote rm origin
           git remote add origin ${{ secrets.GITHUB_TOKEN }}@github.com/krobiag/viz-reg-test.git
           git add --all
           git config user.email "kirk.robertson@iag.com.au"
