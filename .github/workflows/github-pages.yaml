@@ -107,6 +107,10 @@ jobs:
               fi
           done
 
+          git add --all
+          git commit -m "remove stale branches"
+          push origin gh-pages
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
