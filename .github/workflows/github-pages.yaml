@@ -49,7 +49,6 @@ jobs:
           mkdir -p $branch_base/report
 
           # add git lfs to repo
-          # cp .gitattributes tmp
           echo "
           deploy/** filter=lfs diff=lfs merge=lfs -text" >> tmp/.gitattributes
 
@@ -80,7 +79,7 @@ jobs:
               # Check if the file exists
               if [ -e "$directory/$timestamp_file" ]; then
                   # Calculate the timestamp for two months ago
-                  two_month_ago=$(( $(date +%s) - 100 ))  # 60 days * 24 hours * 3600 seconds
+                  two_month_ago=$(( $(date +%s) - 60*24*3600 ))  # 60 days * 24 hours * 3600 seconds
                   # Retrieve the timestamp from the file
                   branch_timestamp=$(cat $timestamp_file)    
                   if [ "$branch_timestamp" -lt "$two_month_ago" ]; then
@@ -97,8 +96,8 @@ jobs:
           # git remote rm origin
           # git remote add origin ${{ secrets.GITHUB_TOKEN }}@github.com/krobiag/viz-reg-test.git
           # git add --all
-          # git config user.email "kirk.robertson@iag.com.au"
-          # git config user.name "Kirk Robertson"
+          # git config user.email "firstname.lastname@iag.com.au"
+          # git config user.name "Firstname Lastname"
           # git commit -m "remove stale branches"
           # push origin gh-pages
 
@@ -114,43 +113,6 @@ jobs:
         with:
           lfs: true # Fetches LFS data
           ref: gh-pages
-
-      # - name: List Files in GitHub Pages
-      #   run: |
-      #     ls -la
-      #   working-directory: . # Adjust to your GitHub Pages directory
-
-      # - name: Check for & remove stale branches
-      #   run: |
-      #     base_directory="./deploy/branch"
-      #     # Use find to locate directories (including subdirectories)
-      #     # -type d specifies that we're looking for directories
-      #     # -print0 and -0 ensure that directory names with spaces are handled correctly
-      #     find "$base_directory" -type d -print0 | while IFS= read -d $'\0' directory; do
-
-      #         timestamp_file=timestamp.txt
-      #         file_path="$directory/$timestamp_file"
-      #         # Check if the file exists
-      #         if [ -e "$directory/$timestamp_file" ]; then
-      #             # Calculate the timestamp for two months ago
-      #             two_month_ago=$(( $(date +%s) - 100 ))  # 60 days * 24 hours * 3600 seconds
-      #             # Retrieve the timestamp from the file
-      #             branch_timestamp=$(cat $timestamp_file)
-      #             if [ "$branch_timestamp" -lt "$two_month_ago" ]; then
-      #                 echo "Removing stale branch: $directory"
-      #                 rm -rf $directory
-      #             fi
-      #         else
-      #           continue
-      #         fi
-      #     done
-      #     git remote rm origin
-      #     git remote add origin ${{ secrets.GITHUB_TOKEN }}@github.com/krobiag/viz-reg-test.git
-      #     git add --all
-      #     git config user.email "kirk.robertson@iag.com.au"
-      #     git config user.name "Kirk Robertson"
-      #     git commit -m "remove stale branches"
-      #     push origin gh-pages
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
