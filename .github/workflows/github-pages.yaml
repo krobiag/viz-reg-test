@@ -39,6 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
+
       - name: Build storybook
         run: yarn build-storybook
 
@@ -117,7 +118,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: deploy
+          path: deploy123
 
       - name: Deploy to GitHub Pages
         id: deployment
