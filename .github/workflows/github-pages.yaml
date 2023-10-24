@@ -23,10 +23,10 @@ concurrency:
 
 jobs:
   deploy:
-    name: My first job
+    name: Build & Deploy Storybook and snapshots
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}/12345
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
@@ -46,6 +46,7 @@ jobs:
 
       - name: Copy specific directory
         run: |
+          echo "HAHAHAHAH ${{ steps.deployment.outputs.page_url }}"
           # Create a directory to copy your files
           branch_base=tmp/deploy/branch/${{ github.ref_name }}
           mkdir -p $branch_base/report
