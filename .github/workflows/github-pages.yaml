@@ -26,7 +26,7 @@ jobs:
     name: Build & Deploy Storybook and snapshots
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}/some-new/link
+      url: ${{ steps.deployment.outputs.page_url }}branch/${{ github.ref_name }}/report/
     runs-on: ubuntu-latest
 
     steps:
@@ -46,7 +46,6 @@ jobs:
 
       - name: Copy specific directory
         run: |
-          echo "HAHAHAHAH ${{ steps.deployment.outputs.page_url }}"
           # Create a directory to copy your files
           branch_base=tmp/deploy/branch/${{ github.ref_name }}
           mkdir -p $branch_base/report
