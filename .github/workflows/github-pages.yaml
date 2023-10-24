@@ -23,9 +23,10 @@ concurrency:
 
 jobs:
   deploy:
+    name: My first job
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}/12345
     runs-on: ubuntu-latest
 
     steps:
